@@ -1,0 +1,36 @@
+import subprocess
+import os
+import datetime
+
+# Function to execute compiled AppleScript
+def send_imessage():
+    script_path = os.path.join(os.path.dirname(__file__), 'send.scpt')
+    subprocess.run(["osascript", script_path])
+
+# Function to check if the script was run in the last 48 hours
+def last_run_within_48_hours(log_file):
+    if not os.path.exists(log_file):
+        return False
+    
+    with open(log_file, 'r') as file:
+        lines = file.readlines()
+        if not lines:
+            return False
+        last_line = lines[-1]
+        last_run_time = datetime.datetime.strptime(last_line.split(',')[0], '%Y-%m-%d %H:%M:%S')
+        return (datetime.datetime.now() - last_run_time) < datetime.timedelta(hours=48)
+
+# Logging function
+def log_run(message, log_file):
+    with open(log_file, 'a') as file:
+        file.write(f'{datetime.datetime.now():%Y-%m-%d %H:%M:%S}, {message}\n')
+
+# Main script logic
+log_file = 'run_log.txt'
+
+if last_run_within_48_hours(log_file):
+    log_run('Message already sent in last 48 hours, skip', log_file)
+    print('Message already sent in last 48 hours, skip')
+else:
+    send_imessage()
+    log_run('Message sent', log_file)
