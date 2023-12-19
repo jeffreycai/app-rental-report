@@ -1,3 +1,4 @@
 *.scpt
 .env
 run_log.txt
+message.txt
