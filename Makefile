@@ -2,10 +2,10 @@ compile:
 	osacompile -o send.scpt send.applescript
 .PHONEY: compile
 
-run: compile
-	osascript send.scpt
+run: report compile
+	python3 send.py
 .PHONEY: run
 
-make_report:
+report:
 	python3 make_report.py
 .PHONEY: make_report
