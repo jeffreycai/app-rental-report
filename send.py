@@ -13,12 +13,16 @@ def last_run_within_48_hours(log_file):
         return False
     
     with open(log_file, 'r') as file:
-        lines = file.readlines()
-        if not lines:
-            return False
-        last_line = lines[-1]
-        last_run_time = datetime.datetime.strptime(last_line.split(',')[0], '%Y-%m-%d %H:%M:%S')
-        return (datetime.datetime.now() - last_run_time) < datetime.timedelta(hours=48)
+        for line in reversed(file.readlines()):
+            if 'success' in line:
+                try:
+                    last_run_time = datetime.datetime.strptime(line.split(',')[0], '%Y-%m-%d %H:%M:%S')
+                    return (datetime.datetime.now() - last_run_time) < datetime.timedelta(hours=48)
+                except ValueError:
+                    # Handle cases where the line does not have a valid timestamp
+                    continue
+    
+    return False
 
 # Logging function
 def log_run(message, log_file):
@@ -33,4 +37,4 @@ if last_run_within_48_hours(log_file):
     print('Message already sent in last 48 hours, skip')
 else:
     send_imessage()
-    log_run('Message sent', log_file)
+    log_run(f'Message sent successfully to {os.getenv("TARGET")}', log_file)

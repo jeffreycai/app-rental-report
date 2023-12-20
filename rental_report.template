@@ -1,13 +1,14 @@
-Rental Report for Property [{address}]:
+Rental Report:
 
 - - - - - - - - - - - - - - - - - - - - - - - - - -
 Contract starts:     {START}
 Weekly rental:       ${RENTAL}
 
-This payment cycle:  From {first_day} to {last_day}
+This payment cycle: {first_day} - {last_day}
 This payment amount: ${payment_amount}
 
-Total Payment Cycles up-to-date: {total_payment_cycles}
+Total Cycles up-to-date: {total_payment_cycles}
 - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+Please make sure rental is paid on time.
 {bank_details}

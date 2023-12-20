@@ -6,8 +6,11 @@ tell application "System Events"
     set myMessage to read fileReference
 end tell
 
+-- Fetch the email from the environment variable
+set recipientEmail to do shell script "echo $TARGET"
+
 tell application "Messages"
     set myService to 1st service whose service type = iMessage
-    set myBuddy to buddy "jeffreycaizhenyuan@gmail.com" of myService
+    set myBuddy to buddy recipientEmail of myService
     send myMessage to myBuddy
 end tell

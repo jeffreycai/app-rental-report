@@ -8,7 +8,6 @@ from dateutil.relativedelta import relativedelta
 load_dotenv()
 
 # Read environment variables
-address = os.getenv('ADDRESS', 'Unknown Address')
 rental = float(os.getenv('RENTAL', '0'))
 start_date_str = os.getenv('START', '2023-01-01')
 pay_cycle_weeks = int(os.getenv('PAY_CYCLE', '2'))
@@ -34,7 +33,6 @@ with open('rental_report.template', 'r') as file:
     template = file.read()
 
 report = template.format(
-    address=address,
     START=start_date_str,
     RENTAL=rental,
     first_day=first_day.strftime('%Y-%m-%d'),
